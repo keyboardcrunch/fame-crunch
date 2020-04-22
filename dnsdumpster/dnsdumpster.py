@@ -29,7 +29,7 @@ except ImportError:
 
 class DnsDumpster(ProcessingModule):
     name = "dnsdumpster"
-    description = "Grab DNS data from a domain."
+    description = "Enumerate domain DNS data."
     acts_on = ['url']
 
     config = [
@@ -37,19 +37,19 @@ class DnsDumpster(ProcessingModule):
             'name': 'reverse_dns',
             'type': 'bool',
             'default': 'false',
-            'description': 'Enumerate reverse DNS entries.'
+            'description': 'List reverse DNS entries from DnsDumpster.'
         },
         {
             'name': 'page_links',
             'type': 'bool',
             'default': 'false',
-            'description': 'Grab page links.'
+            'description': 'Grab page links using HackerTarget.'
         },
         {
             'name': 'http_headers',
             'type': 'bool',
             'default': 'false',
-            'description': 'Grab HTTP server headers.'
+            'description': 'Grab HTTP server headers from URL using HackerTarget.'
         },
     ]
 
