@@ -1,33 +1,38 @@
 <div class="col-md-12">
     <div class="card">
         <div class="header">
-            <h4 class="title">DNSDumpster Report</h4>
-            <p class="category">Detailed Results</p>
+            <h4 class="title">DNSDumpster Report</h4> 
         </div>
         <div class="content">
-            <label>DNS Data</label>
+            <p class="category">DNS Data</p>
             {% if 'dns_data' in results %}
-                {{results['dns_data']}}
+                {% for record in results['dns_data'] %}
+                    {{record}}
+                {% endfor %}
             {% endif %}
 
             {% if 'headers' in results %}
-                <label>Page Headers</label>
+                <p class="category">Page Headers</p>
                 <div class="labeled_content">
                     {{results['headers']}}
                 </div>
             {% endif %}
 
             {% if 'links' in results %}
-                <label>Page Links</label>
+                <p class="category">Page Links</p>
                 <div class="labeled_content">
-                    {{results['links']}}
+                    {% for link in results['links'] %}
+                        {{link}}
+                    {% endfor %}
                 </div>
             {% endif %}
 
             {% if 'reverse_dns' in results %}
-                <label>Reverse DNS</label>
+                <p class="category">Reverse DNS</p>
                 <div class="labeled_content">
-                    {{results['reverse_dns']}}
+                    {% for reverse in results['reverse_dns'] %}
+                        {{reverse}}
+                    {% endfor %}
                 </div>
             {% endif %}
         </div>
