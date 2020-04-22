@@ -1,8 +1,9 @@
-import json 
-from fame.core.module import ProcessingModule, ModuleInitializationError
+from fame.core.module import ProcessingModule
+from fame.common.exceptions import ModuleInitializationError
+import json
 
 try:
-    from dnsdmpster import dnsdmpstr
+    from dnsdmpstr import dnsdmpster
     has_dnsdump = True
 except ImportError:
     has_dnsdump = False
@@ -40,9 +41,9 @@ class DnsDumpster(ProcessingModule):
 
     def initialize(self):
         if not has_dnsdump:
-            raise ModuleInitializationError(self, "Zeropwn's dnsdmpster is missing")
+            raise ModuleInitializationError(self, "Missing dependancy: dnsdmpstr")
         if not has_tldextract:
-            raise ModuleInitializationError(self, "tldextract is missing")
+            raise ModuleInitializationError(self, "Missing dependancy: tldextract")
 
     def dumpdns(self, target):
         # Get the root domain
@@ -50,7 +51,7 @@ class DnsDumpster(ProcessingModule):
         domain = domain.domain + '.' + domain.suffix
 
         # Initialize dnsdmpstr and enumerate the data
-        dnsdump = dnsdmpstr.dnsdmpstr()
+        dnsdump = dnsdmpstr()
 
         # DNS Data
         dnslookup = dnsdump.dnslookup(domain)
