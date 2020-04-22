@@ -51,7 +51,7 @@ class DnsDumpster(ProcessingModule):
         domain = domain.domain + '.' + domain.suffix
 
         # Initialize dnsdmpstr and enumerate the data
-        dnsdump = dnsdmpstr()
+        dnsdump = dnsdmpstr.dnsdmpstr()
 
         # DNS Data
         dnslookup = dnsdump.dnslookup(domain)
