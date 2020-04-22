@@ -89,4 +89,6 @@ class DnsDumpster(ProcessingModule):
         # Leverage Zeropwn's dnsdmpstr on the domain
         self.dumpdns(target)
         
-        return len(self.results) > 0
+        self.log('dnsdump', '{}'.format(self.results['dns_data']))
+
+        return True
