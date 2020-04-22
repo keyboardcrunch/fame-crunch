@@ -78,7 +78,6 @@ class DnsDumpster(ProcessingModule):
             links = dnsdump.pagelinks(target)
             self.results['links'] = links
 
-
     def each(self, target):
         self.results = {
             'dns_data': [],
@@ -90,6 +89,6 @@ class DnsDumpster(ProcessingModule):
         # Leverage Zeropwn's dnsdmpstr on the domain
         self.dumpdns(target)
         
-        self.log('dns data:', '{}'.format(self.results['dns_data']))
+        self.log('dnsdump', '{}'.format(self.results))
 
-        return len(self.results['dns_data']) > 0
+        return True
