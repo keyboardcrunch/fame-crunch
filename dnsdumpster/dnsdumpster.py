@@ -55,25 +55,30 @@ class DnsDumpster(ProcessingModule):
 
         # DNS Data
         dnslookup = dnsdump.dnslookup(domain)
-        self.results.append(("dnsdata", dnslookup))
+        self.results['dns_data'] = dnslookup
 
         # Reverse DNS
         if self.reverse_dns:
             reverse = dnsdump.reversedns(domain)
-            self.results.append(("reverse", reverse))
+            self.results['reverse_dns'] = reverse
 
         # HTTP Headers
         if self.http_headers:
             headers = dnsdump.httpheaders(target)
-            self.results.append(("headers", headers))
+            self.results['headers'] = headers
 
         # Page Links
         if self.page_links:
             links = dnsdump.pagelinks(target)
-            self.results.append(("links", links))
+            self.results['links'] = links
 
     def each(self, target):
-        self.results = []
+        self.results = {
+            'dns_data': [],
+            'reverse_dns': [],
+            'headers': [],
+            'links': []
+        }
 
         # Leverage Zeropwn's dnsdmpstr on the domain
         self.dumpdns(target)
