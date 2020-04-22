@@ -8,7 +8,7 @@ from fame.common.exceptions import ModuleInitializationError
 
 try:
     sys.path.append(os.path.join(VENDOR_ROOT, 'dnsdmpstr'))
-    from dnsdmpstr import dnsdmpstr
+    import dnsdmpstr
     has_dnsdump = True
 except ImportError:
     has_dnsdump = False
