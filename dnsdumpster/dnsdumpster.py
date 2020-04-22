@@ -2,7 +2,7 @@ import json
 from fame.core.module import ProcessingModule, ModuleInitializationError
 
 try:
-    from dnsdmpstr import dnsdmpstr
+    from dnsdmpster import dnsdmpstr
     has_dnsdump = True
 except ImportError:
     has_dnsdump = False

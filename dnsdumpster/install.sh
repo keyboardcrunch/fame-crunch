@@ -5,4 +5,5 @@ SCRIPTPATH=`dirname $SCRIPT`
 
 if [! dnsdmpstr ]; then
     git clone https://github.com/zeropwn/dnsdmpstr.git $SCRIPTPATH/dnsdmpstr
+    touch dnsdmpstr/__init__.py
 fi
