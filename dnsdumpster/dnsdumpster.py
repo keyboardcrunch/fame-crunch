@@ -12,7 +12,8 @@ except ImportError:
 class DnsDumpster(ProcessingModule):
     name = "dnsdumpster"
     description = "Grab DNS data from a domain."
-
+    acts_on = ['url']
+    
     config = [
         {
             'name': 'reverse_dns',
