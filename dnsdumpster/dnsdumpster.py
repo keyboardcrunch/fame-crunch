@@ -1,12 +1,18 @@
-from fame.core.module import ProcessingModule
-from fame.common.exceptions import ModuleInitializationError
+import os
+import sys
 import json
+from fame.core.module import ProcessingModule
+from fame.common.constants import VENDOR_ROOT
+from fame.common.exceptions import ModuleInitializationError
+
 
 try:
-    from .dnsdmpstr import dnsdmpstr
+    sys.path.append(os.path.join(VENDOR_ROOT, 'dnsdmpstr'))
+    from dnsdmpstr import dnsdmpstr
     has_dnsdump = True
 except ImportError:
     has_dnsdump = False
+
 try:
     import tldextract
     has_tldextract = True
