@@ -1,14 +1,19 @@
  
 from fame.core.module import ProcessingModule, ModuleInitializationError
-from dnsdmpstr import dnsdmpstr
-import tldextract
-import json
+
+try:
+    from dnsdmpstr import dnsdmpstr
+    import tldextract
+    import json
+    has_depends = True
+except ImportError:
+    has_depends = False
 
 class DnsDumpster(ProcessingModule):
     name = "dnsdumpster"
     description = "Grab DNS data from a domain."
 
-    config = [
+    named_configs = [
         {
             'name': 'reverse_dns',
             'type': 'bool',
@@ -30,7 +35,9 @@ class DnsDumpster(ProcessingModule):
     ]
 
     def initialize(self):
-        self.needs_plugin("tldextract")
+        if not has_depends:
+            raise ModuleInitializationError(self, "dnsdumpster is missing dependancies")
+        return True
 
     def dumpdns(self, target):
         # Get the root domain
