@@ -1,19 +1,22 @@
- 
+import json 
 from fame.core.module import ProcessingModule, ModuleInitializationError
 
 try:
     from dnsdmpstr import dnsdmpstr
-    import tldextract
-    import json
-    has_depends = True
+    has_dnsdump = True
 except ImportError:
-    has_depends = False
+    has_dnsdump = False
+try:
+    import tldextract
+    has_tldextract = True
+except ImportError:
+    has_tldextract = False
 
 class DnsDumpster(ProcessingModule):
     name = "dnsdumpster"
     description = "Grab DNS data from a domain."
     acts_on = ['url']
-    
+
     config = [
         {
             'name': 'reverse_dns',
@@ -36,9 +39,10 @@ class DnsDumpster(ProcessingModule):
     ]
 
     def initialize(self):
-        if not has_depends:
-            raise ModuleInitializationError(self, "dnsdumpster is missing dependancies")
-        return True
+        if not has_dnsdump:
+            raise ModuleInitializationError(self, "Zeropwn's dnsdmpster is missing")
+        if not has_tldextract:
+            raise ModuleInitializationError(self, "tldextract is missing")
 
     def dumpdns(self, target):
         # Get the root domain
