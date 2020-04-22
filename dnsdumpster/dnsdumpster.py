@@ -81,14 +81,22 @@ class DnsDumpster(ProcessingModule):
 
         # HTTP Headers
         if self.http_headers:
-            dest = url.split('?')[0]
             self.log("debug", 'gathering url headers...')
-            self.results['headers'] = dnsdump.httpheaders(dest)
+            # Query HackerTarget with a cleaned up target URL
+            dest = url.split('?')[0]  # reduce dnsdmpstr errors
+            dest = dest.split('#')[0] # 
+            headers = dnsdump.httpheaders(dest)
+            if not "error" in headers:
+                self.results['headers'] = headers
 
         # Page Links
         if self.page_links:
-            dest = url.split('?')[0]
             self.log("debug", 'gathering url links...')
-            self.results['links'] = dnsdump.pagelinks(dest)
+            # Query HackerTarget with a cleaned up target URL
+            dest = url.split('?')[0]  # reduce dnsdmpstr errors
+            dest = dest.split('#')[0] #
+            links = dnsdump.pagelinks(dest)
+            if not "url is invalid" in links:
+                self.results['links'] = links
 
         return True
