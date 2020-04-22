@@ -81,12 +81,14 @@ class DnsDumpster(ProcessingModule):
 
         # HTTP Headers
         if self.http_headers:
+            dest = url.split('?')[0]
             self.log("debug", 'gathering url headers...')
-            self.results['headers'] = dnsdump.httpheaders(url)
+            self.results['headers'] = dnsdump.httpheaders(dest)
 
         # Page Links
         if self.page_links:
+            dest = url.split('?')[0]
             self.log("debug", 'gathering url links...')
-            self.results['links'] = dnsdump.pagelinks(url)
+            self.results['links'] = dnsdump.pagelinks(dest)
 
         return True
