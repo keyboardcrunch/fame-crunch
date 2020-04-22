@@ -51,44 +51,34 @@ class DnsDumpster(ProcessingModule):
         if not has_tldextract:
             raise ModuleInitializationError(self, "Missing dependancy: tldextract")
 
-    def dumpdns(self, target):
+    def each(self, target):
+        self.results = {}
+
         # Get the root domain
-        domain = tldextract.extract(target)
-        domain = domain.domain + '.' + domain.suffix
+        url = target
+        domain = tldextract.extract(url)
+        root_domain = domain.domain + '.' + domain.suffix
 
         # Initialize dnsdmpstr and enumerate the data
         dnsdump = dnsdmpstr.dnsdmpstr()
 
         # DNS Data
-        dnslookup = dnsdump.dnslookup(domain)
-        self.results['dns_data'] = dnslookup
-        self.log('dns data', '{}'.format(dnslookup))
+        self.log("debug", 'gathering dns data...')
+        self.results['dns_data'] = dnsdump.dnslookup(root_domain)
 
         # Reverse DNS
         if self.reverse_dns:
-            reverse = dnsdump.reversedns(domain)
-            self.results['reverse_dns'] = reverse
-            self.log('reverse dns', '{}'.format(reverse))
+            self.log("debug", 'gathering reverse dns data...')
+            self.results['reverse_dns'] = dnsdump.reversedns(root_domain)
 
         # HTTP Headers
         if self.http_headers:
-            headers = dnsdump.httpheaders(target)
-            self.results['headers'] = headers
-            self.log('headers', '{}'.format(headers))
+            self.log("debug", 'gathering url headers...')
+            self.results['headers'] = dnsdump.httpheaders(url)
 
         # Page Links
         if self.page_links:
-            links = dnsdump.pagelinks(target)
-            self.results['links'] = links
-            self.log('links', '{}'.format(links))
+            self.log("debug", 'gathering url links...')
+            self.results['links'] = dnsdump.pagelinks(url)
 
-    def each(self, target):
-        self.results = {
-            'dns_data': [],
-            'reverse_dns': [],
-            'headers': [],
-            'links': []
-        }
-
-        # Leverage Zeropwn's dnsdmpstr on the domain
-        self.dumpdns(target)
+        return True
