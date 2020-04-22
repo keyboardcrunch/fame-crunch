@@ -2,6 +2,14 @@ import os
 import sys
 import json
 
+"""
+Todo:
+    * Add json output as support_file
+    * Snag that fancy domain graph off dnsdumpster?
+    * Snag that fancy dns excel file off dnsdumpster?
+
+"""
+
 from fame.core.module import ProcessingModule
 from fame.common.constants import VENDOR_ROOT
 from fame.common.exceptions import ModuleInitializationError

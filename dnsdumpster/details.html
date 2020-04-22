@@ -5,34 +5,31 @@
         </div>
         <div class="content">
             <p class="category">DNS Data</p>
-            {% if 'dns_data' in results %}
-                {% for record in results['dns_data'] %}
-                    {{record}}
-                {% endfor %}
-            {% endif %}
+            <div class="labeled_content">
+                <pre><code>{{ results['dns_data'] }}</code></pre>
+            </div>
 
             {% if 'headers' in results %}
+                <br />
                 <p class="category">Page Headers</p>
                 <div class="labeled_content">
-                    {{results['headers']}}
+                    <pre><code>{{ results['headers'] }}</code></pre>
                 </div>
             {% endif %}
 
             {% if 'links' in results %}
+                <br />
                 <p class="category">Page Links</p>
                 <div class="labeled_content">
-                    {% for link in results['links'] %}
-                        {{link}}
-                    {% endfor %}
+                    <pre><code>{{ results['links'] }}</code></pre>
                 </div>
             {% endif %}
 
             {% if 'reverse_dns' in results %}
+                <br />
                 <p class="category">Reverse DNS</p>
                 <div class="labeled_content">
-                    {% for reverse in results['reverse_dns'] %}
-                        {{reverse}}
-                    {% endfor %}
+                    <pre><code>{{ results['reverse_dns'] }}</code></pre>
                 </div>
             {% endif %}
         </div>
