@@ -77,8 +77,7 @@ class DnsDumpster(ProcessingModule):
         if self.page_links:
             links = dnsdump.pagelinks(target)
             self.results['links'] = links
-        
-        return True
+
 
     def each(self, target):
         self.results = {
@@ -93,4 +92,4 @@ class DnsDumpster(ProcessingModule):
         
         self.log('dns data:', '{}'.format(self.results['dns_data']))
 
-        return True
+        return len(self.results['dns_data']) > 0
