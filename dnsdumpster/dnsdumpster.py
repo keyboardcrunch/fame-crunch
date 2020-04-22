@@ -13,7 +13,7 @@ class DnsDumpster(ProcessingModule):
     name = "dnsdumpster"
     description = "Grab DNS data from a domain."
 
-    named_configs = [
+    config = [
         {
             'name': 'reverse_dns',
             'type': 'bool',
