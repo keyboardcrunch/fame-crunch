@@ -1,10 +1,10 @@
 import os
 import sys
 import json
+
 from fame.core.module import ProcessingModule
 from fame.common.constants import VENDOR_ROOT
 from fame.common.exceptions import ModuleInitializationError
-
 
 try:
     sys.path.append(os.path.join(VENDOR_ROOT, 'dnsdmpstr'))
