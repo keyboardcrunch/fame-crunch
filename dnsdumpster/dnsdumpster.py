@@ -3,7 +3,7 @@ from fame.common.exceptions import ModuleInitializationError
 import json
 
 try:
-    from dnsdmpstr import dnsdmpster
+    from .dnsdmpstr import dnsdmpstr
     has_dnsdump = True
 except ImportError:
     has_dnsdump = False
