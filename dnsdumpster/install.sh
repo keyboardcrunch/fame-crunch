@@ -3,4 +3,6 @@
 SCRIPT=`realpath $0`
 SCRIPTPATH=`dirname $SCRIPT`
 
-git clone https://github.com/zeropwn/dnsdmpstr.git $SCRIPTPATH/dnsdmpstr
+if [! dnsdmpstr ]; then
+    git clone https://github.com/zeropwn/dnsdmpstr.git $SCRIPTPATH/dnsdmpstr
+fi
