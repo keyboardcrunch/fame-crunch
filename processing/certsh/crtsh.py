@@ -1,14 +1,13 @@
 import os
 import sys
 import json
-import requests
 
 from fame.core.module import ProcessingModule
 from fame.common.utils import tempdir
 from fame.common.exceptions import ModuleInitializationError, ModuleExecutionError
 
 try:
-    import tldextract
+    import requests
     has_requests = True
 except ImportError:
     has_requests = False
@@ -63,7 +62,7 @@ class Crtsh(ProcessingModule):
         
         # We want to gather data in a way to present the details.html template as default
         # 
-        
+
 
         # Save JSON data
         if self.save_json:
