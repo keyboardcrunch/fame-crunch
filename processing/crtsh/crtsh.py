@@ -6,6 +6,11 @@ from fame.core.module import ProcessingModule
 from fame.common.utils import tempdir
 from fame.common.exceptions import ModuleInitializationError, ModuleExecutionError
 
+"""
+Todo:
+    - dedupe json save output
+"""
+
 try:
     import requests
     has_requests = True
@@ -92,6 +97,7 @@ class Crtsh(ProcessingModule):
 
         # Save host list
         if self.save_hosts:
+            # need to dedupe the contents
             self.log("info", "Saving host list...")
             host_file = "{}_hostlist.txt".format(domain.domain)
             host_save = os.path.join(tmpdir, host_file)
