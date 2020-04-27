@@ -73,11 +73,14 @@ class DnsDumpster(ProcessingModule):
         # DNS Data
         data = dnsdump.dump(root_domain)
         for (key,value) in enumerate(data):
-            dns_info += "{}\n\n".format(value)
+            dns_info += "\n\n{}".format(value)
             if value == 'dns':
                 for entry in data[value]:
                     dns_info += "{}\n".format(data[value][entry]["ip"])
             if value == 'mx':
+                for entry in data[value]:
+                    dns_info += "{} : {}\n".format(data[value][entry]["host"], data[value][entry]["ip"])
+            if value == 'host':
                 for entry in data[value]:
                     dns_info += "{} : {}\n".format(data[value][entry]["host"], data[value][entry]["ip"])
             else:
