@@ -59,18 +59,32 @@ class DnsDumpster(ProcessingModule):
 
     def each(self, target):
         self.results = {}
+        dns_info = ""
 
         # Get the root domain
         url = target
         domain = tldextract.extract(url)
         root_domain = "{}.{}".format(domain.domain, domain.suffix)
-
+        self.log("info", 'gathering dns data for {}'.format(root_domain))
+        
         # Initialize dnsdmpstr and enumerate the data
         dnsdump = dnsdmpstr.dnsdmpstr()
 
         # DNS Data
-        self.log("info", 'gathering dns data for {}'.format(root_domain))
-        self.results['dns_data'] = dnsdump.dnslookup(root_domain)
+        data = dnsdump.dump(root_domain)
+        for (key,value) in enumerate(data):
+            dns_info += "value\n"
+            if value == 'dns':
+                for entry in data[value]:
+                    dns_info += "{} : {}\n".format(data[value][entry]["host"], data[value][entry]["ip"])
+            if value == 'mx':
+                for entry in data[value]:
+                    dns_info += "{} : {}\n".format(data[value][entry]["host"], data[value][entry]["ip"])
+            else:
+                for entry in data[value]:
+                    print(data[value][entry])
+                    dns_info += "{}\n".format(data[value][entry])
+        self.results['dns_data'] = dns_info
 
         # Save csv data
         if self.save_json:
