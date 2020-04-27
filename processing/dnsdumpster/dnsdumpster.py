@@ -1,17 +1,11 @@
 import os
 import sys
 import json
-
-"""
-Todo:
-    * Add json output as support_file
-    * Snag that fancy domain graph off dnsdumpster?
-    * Snag that fancy dns excel file off dnsdumpster?
-
-"""
+import re
 
 from fame.core.module import ProcessingModule
 from fame.common.constants import VENDOR_ROOT
+from fame.common.utils import tempdir
 from fame.common.exceptions import ModuleInitializationError
 
 try:
@@ -36,20 +30,26 @@ class DnsDumpster(ProcessingModule):
         {
             'name': 'reverse_dns',
             'type': 'bool',
-            'default': True,
+            'default': False,
             'description': 'List reverse DNS entries from DnsDumpster.'
         },
         {
             'name': 'page_links',
             'type': 'bool',
-            'default': True,
+            'default': False,
             'description': 'Grab page links using HackerTarget.'
         },
         {
             'name': 'http_headers',
             'type': 'bool',
-            'default': True,
+            'default': False,
             'description': 'Grab HTTP server headers from URL using HackerTarget.'
+        },
+        {
+            'name': 'save_csv',
+            'type': 'bool',
+            'default': False,
+            'description': 'Save DNS lookup data to a csv file.'
         },
     ]
 
@@ -72,7 +72,16 @@ class DnsDumpster(ProcessingModule):
 
         # DNS Data
         self.log("debug", 'gathering dns data...')
-        self.results['dns_data'] = dnsdump.dnslookup(root_domain)
+        dnsd = dnsdump.dnslookup(root_domain)
+        self.results['dns_data'] = dnsd
+        if self.save_csv:
+            tmpdir = tempdir()
+            csv_file = "{r}.json".format(r=root_domain)
+            csv_save = os.path.join(tempdir, csv_file)
+            with open(csv_save, "w") as cf:
+                cf.write(re.sub("[\t]", ",", dnsd))
+                cf.close()
+            self.add_extracted_file(csv_save)
 
         # Reverse DNS
         if self.reverse_dns:
