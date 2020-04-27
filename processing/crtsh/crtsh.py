@@ -58,11 +58,11 @@ class Crtsh(ProcessingModule):
         # Get the root domain
         url = target
         domain = tldextract.extract(url)
-        root_domain = domain.domain + '.' + domain.suffix
+        root_domain = "{}.{}".format(domain.domain, domain.suffix)
 
         self.log("info", "Querying crt.sh with root domain...")
         try:
-            req = requests.get("https://crt.sh/?q=%.{d}&output=json".format(d=root_domain))
+            req = requests.get("https://crt.sh/?q=%.{}&output=json".format(root_domain))
             json_data = json.loads(req.text)
         except:
             raise ModuleExecutionError("Failed to get data from crt.sh")
@@ -79,29 +79,30 @@ class Crtsh(ProcessingModule):
         # Save JSON data
         if self.save_json:
             self.log("info", "Saving json output from crt.sh...")
-            json_file = "{r}.json".format(r=root_domain)
-            json_save = os.path.join(tempdir, json_file)
+            json_file = "{}.json".format(root_domain)
+            json_save = os.path.join(tmpdir, json_file)
             try:
                 with open(json_save, "w") as jf:
                     jf.write(json.dumps(json_data, indent=4))
                     jf.close()
-                self.add_extracted_file(json_save)
+                self.add_support_file(os.path.basename(json_save), json_save)
             except:
                 raise ModuleExecutionError("Failed to save json data from crt.sh")
 
         # Save host list
         if self.save_hosts:
             self.log("info", "Saving host list...")
-            host_file = "{r}-hostlist.txt".format(r=root_domain)
-            host_save = os.path.join(tempdir, host_file)
+            host_file = "{}-hostlist.txt".format(root_domain)
+            host_save = os.path.join(tmpdir, host_file)
             try:
                 with open(host_save, "w") as hf:
                     for (key, value) in enumerate(json_data):
                         hf.write("{hn}\r\n".format(hn=value['name_value']))
                     hf.close()
-                self.add_extracted_file(host_save)
+                self.add_support_file(os.path.basename(host_save), host_save)
             except:
                 raise ModuleExecutionError("Failed to save json data from crt.sh")
 
         self.log("info","crt.sh finished.")
+
         return True

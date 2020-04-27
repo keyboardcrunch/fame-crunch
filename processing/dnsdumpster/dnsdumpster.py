@@ -65,7 +65,7 @@ class DnsDumpster(ProcessingModule):
         # Get the root domain
         url = target
         domain = tldextract.extract(url)
-        root_domain = domain.domain + '.' + domain.suffix
+        root_domain = "{}.{}".format(domain.domain, domain.suffix)
 
         # Initialize dnsdmpstr and enumerate the data
         dnsdump = dnsdmpstr.dnsdmpstr()
@@ -79,11 +79,11 @@ class DnsDumpster(ProcessingModule):
         if self.save_csv:
             tmpdir = tempdir()
             csv_file = "{r}.json".format(r=root_domain)
-            csv_save = os.path.join(tempdir, csv_file)
+            csv_save = os.path.join(tmpdir, csv_file)
             with open(csv_save, "w") as cf:
                 cf.write(re.sub("[\t]", ",", dnsd))
                 cf.close()
-            self.add_extracted_file(csv_save)
+            self.add_support_file(os.path.basename(csv_save), csv_save)
 
         # Reverse DNS
         if self.reverse_dns:
