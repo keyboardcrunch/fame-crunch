@@ -72,18 +72,21 @@ class DnsDumpster(ProcessingModule):
 
         # DNS Data
         self.log("info", 'gathering dns data...')
-        dnsd = dnsdump.dnslookup(root_domain)
-        self.results['dns_data'] = dnsd
+        self.results['dns_data'] = dnsdump.dnslookup(root_domain)
 
         # Save csv data
         if self.save_csv:
-            tmpdir = tempdir()
-            csv_file = "{r}.json".format(r=root_domain)
-            csv_save = os.path.join(tmpdir, csv_file)
-            with open(csv_save, "w") as cf:
-                cf.write(re.sub("[\t]", ",", dnsd))
-                cf.close()
-            self.add_support_file(csv_file, csv_save)
+            try:
+                tmpdir = tempdir()
+                csv_file = "{}.csv".format(domain.domain)
+                csv_save = os.path.join(tmpdir, csv_file)
+                with open(csv_save, "w") as cf:
+                    cf.write(re.sub("[\t]", ",", self.results['dns_data']))
+                    cf.close()
+                self.add_support_file("DNS Data", csv_save)
+            except:
+                self.log("error", 'failed to save csv output.')
+                continue
 
         # Reverse DNS
         if self.reverse_dns:

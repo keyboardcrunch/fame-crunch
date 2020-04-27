@@ -19,7 +19,7 @@ except ImportError:
     has_tldextract = False
 
 class Crtsh(ProcessingModule):
-    name = "crt.sh"
+    name = "crtsh"
     description = "Gather all domain certificates using Crt.sh"
     acts_on = ['url']
 
@@ -72,34 +72,35 @@ class Crtsh(ProcessingModule):
         certs = []
         for (key, value) in enumerate(json_data): # Add first X cert dicts to a list
             while vc < self.cert_count:
-                certs.append(value)
+                #certs.append(value)
+                certs.append(json.load(value))
                 vc += 1
         self.results['top_certs'] = certs
 
         # Save JSON data
         if self.save_json:
             self.log("info", "Saving json output from crt.sh...")
-            json_file = "{}.json".format(root_domain)
+            json_file = "{}.json".format(domain.domain)
             json_save = os.path.join(tmpdir, json_file)
             try:
                 with open(json_save, "w") as jf:
                     jf.write(json.dumps(json_data, indent=4))
                     jf.close()
-                self.add_support_file(json_file, json_save)
+                self.add_support_file('Json Output', json_save)
             except:
                 raise ModuleExecutionError("Failed to save json data from crt.sh")
 
         # Save host list
         if self.save_hosts:
             self.log("info", "Saving host list...")
-            host_file = "{}-hostlist.txt".format(root_domain)
+            host_file = "{}_hostlist.txt".format(domain.domain)
             host_save = os.path.join(tmpdir, host_file)
             try:
                 with open(host_save, "w") as hf:
                     for (key, value) in enumerate(json_data):
                         hf.write("{hn}\r\n".format(hn=value['name_value']))
                     hf.close()
-                self.add_support_file(host_file, host_save)
+                self.add_support_file('Host List', host_save)
             except:
                 raise ModuleExecutionError("Failed to save json data from crt.sh")
 
