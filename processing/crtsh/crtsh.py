@@ -38,7 +38,7 @@ class Crtsh(ProcessingModule):
         },
         {
             'name': 'cert_count',
-            'type': 'int',
+            'type': 'integer',
             'default': 10,
             'description': 'Number of most recent certs to show in report.'
         },
