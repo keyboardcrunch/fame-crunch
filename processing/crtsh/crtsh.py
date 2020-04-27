@@ -93,11 +93,11 @@ class Crtsh(ProcessingModule):
         # Save host list
         if self.save_hosts:
             self.log("info", "Saving host list...")
-            values = []
             host_file = "{}_hostlist.txt".format(domain.domain)
             host_save = os.path.join(tmpdir, host_file)
             try:
                 with open(host_save, "w") as hf:
+                    values = []
                     for item in json_data:
                         entry = item['name_value'].split('\n')
                         for e in entry:
