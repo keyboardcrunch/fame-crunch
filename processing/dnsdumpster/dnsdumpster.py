@@ -74,6 +74,8 @@ class DnsDumpster(ProcessingModule):
         self.log("debug", 'gathering dns data...')
         dnsd = dnsdump.dnslookup(root_domain)
         self.results['dns_data'] = dnsd
+
+        # Save csv data
         if self.save_csv:
             tmpdir = tempdir()
             csv_file = "{r}.json".format(r=root_domain)
