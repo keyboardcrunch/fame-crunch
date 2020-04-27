@@ -60,7 +60,7 @@ class Crtsh(ProcessingModule):
         domain = tldextract.extract(url)
         root_domain = domain.domain + '.' + domain.suffix
 
-        self.log("debug", "Querying crt.sh with root domain...")
+        self.log("info", "Querying crt.sh with root domain...")
         try:
             req = requests.get("https://crt.sh/?q=%.{d}&output=json".format(d=root_domain))
             json_data = json.loads(req.text)
@@ -78,7 +78,7 @@ class Crtsh(ProcessingModule):
 
         # Save JSON data
         if self.save_json:
-            self.log("debug", "Saving json output from crt.sh...")
+            self.log("info", "Saving json output from crt.sh...")
             json_file = "{r}.json".format(r=root_domain)
             json_save = os.path.join(tempdir, json_file)
             try:
@@ -91,7 +91,7 @@ class Crtsh(ProcessingModule):
 
         # Save host list
         if self.save_hosts:
-            self.log("debug", "Saving host list...")
+            self.log("info", "Saving host list...")
             host_file = "{r}-hostlist.txt".format(r=root_domain)
             host_save = os.path.join(tempdir, host_file)
             try:
@@ -103,5 +103,5 @@ class Crtsh(ProcessingModule):
             except:
                 raise ModuleExecutionError("Failed to save json data from crt.sh")
 
-        self.log("debug","crt.sh finished.")
+        self.log("info","crt.sh finished.")
         return True

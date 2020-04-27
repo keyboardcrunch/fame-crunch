@@ -71,7 +71,7 @@ class DnsDumpster(ProcessingModule):
         dnsdump = dnsdmpstr.dnsdmpstr()
 
         # DNS Data
-        self.log("debug", 'gathering dns data...')
+        self.log("info", 'gathering dns data...')
         dnsd = dnsdump.dnslookup(root_domain)
         self.results['dns_data'] = dnsd
 
@@ -87,12 +87,12 @@ class DnsDumpster(ProcessingModule):
 
         # Reverse DNS
         if self.reverse_dns:
-            self.log("debug", 'gathering reverse dns data...')
+            self.log("info", 'gathering reverse dns data...')
             self.results['reverse_dns'] = dnsdump.reversedns(root_domain)
 
         # HTTP Headers
         if self.http_headers:
-            self.log("debug", 'gathering url headers...')
+            self.log("info", 'gathering url headers...')
             # Query HackerTarget with a cleaned up target URL
             dest = url.split('?')[0].split("#")[0]  # reduce dnsdmpstr errors
             headers = dnsdump.httpheaders(dest)
@@ -101,7 +101,7 @@ class DnsDumpster(ProcessingModule):
 
         # Page Links
         if self.page_links:
-            self.log("debug", 'gathering url links...')
+            self.log("info", 'gathering url links...')
             # Query HackerTarget with a cleaned up target URL
             dest = url.split('?')[0].split("#")[0]  # reduce dnsdmpstr errors
             links = dnsdump.pagelinks(dest)
