@@ -30,7 +30,7 @@
                 <p class="category">Support Files</p>
                 {% if name in analysis.support_files %}
                     {% for support_file in analysis.support_files[name] %}
-                        <a href="{{url_for('AnalysesView:download_support_file', id=analysis._id, module=name, filename=support_file[1])}}">support_file[0]</a>
+                        <a href="{{url_for('AnalysesView:download_support_file', id=analysis._id, module=name, filename=support_file[1])}}">{{ support_file[0] }}</a>
                     {% endfor %}
                 {% endif %}
             {% endif %}
