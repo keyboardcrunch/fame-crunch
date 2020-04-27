@@ -7,8 +7,7 @@
             <div class="content row">
                 <p class="category">Top {{ results['cert_count'] }} Results</p>
                 {% for cert in results['top_certs'] %}
-                    <p><a href="https://crt.sh/?id={{cert['id']}}">{{ cert['id'] }}</a>&nbsp|&nbsp{{ cert['entry_timestamp'] }} <br />
-                        {{ cert['name_value'] }}<br />
+                    <p><a href="https://crt.sh/?id={{cert['id']}}">{{ cert['id'] }}</a> &nbsp|&nbsp {{ cert['entry_timestamp'] }} &nbsp|&nbsp {{ cert['name_value'] }}<br />
                         {{ cert['issuer_name'] }}
                     </p>
                 {% endfor %}
