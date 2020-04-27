@@ -73,19 +73,24 @@ class DnsDumpster(ProcessingModule):
         # DNS Data
         data = dnsdump.dump(root_domain)
         for (key,value) in enumerate(data):
-            dns_info += "\n\n{}".format(value)
+            # we'll handle any NS, MX, TXT records and drop the rest (shouldn't be others)
+            dns_info += "\n\n{}\n".format(value)
             if value == 'dns':
                 for entry in data[value]:
-                    dns_info += "{}\n".format(data[value][entry]["ip"])
+                    dns_info += "{}\n".format(data[value][entry]["host"])
             if value == 'mx':
                 for entry in data[value]:
                     dns_info += "{} : {}\n".format(data[value][entry]["host"], data[value][entry]["ip"])
             if value == 'host':
                 for entry in data[value]:
-                    dns_info += "{} : {}\n".format(data[value][entry]["host"], data[value][entry]["ip"])
-            else:
+                    # Example: {'ip': '35.239.11.185', 'host': 'webdisk.pynative.comFTP: 220-##############################################HTTP TECH: nginxHTTPS TECH: nginx'}
+                    host = data[value][entry]["host"].replace("FTP", "\tFTP").replace("HTTP", "\tHTTP") # formatting cleanup
+                    dns_info += "{} \t {}\n".format(host, data[value][entry]["ip"])
+            if value == 'txt':
                 for entry in data[value]:
                     dns_info += "{}\n".format(data[value][entry])
+            else:
+                pass
         self.results['dns_data'] = dns_info
 
         # Save csv data
