@@ -85,7 +85,7 @@ class Crtsh(ProcessingModule):
                 with open(json_save, "w") as jf:
                     jf.write(json.dumps(json_data, indent=4))
                     jf.close()
-                self.add_support_file(os.path.basename(json_save), json_save)
+                self.add_support_file(json_file, json_save)
             except:
                 raise ModuleExecutionError("Failed to save json data from crt.sh")
 
@@ -99,7 +99,7 @@ class Crtsh(ProcessingModule):
                     for (key, value) in enumerate(json_data):
                         hf.write("{hn}\r\n".format(hn=value['name_value']))
                     hf.close()
-                self.add_support_file(os.path.basename(host_save), host_save)
+                self.add_support_file(host_file, host_save)
             except:
                 raise ModuleExecutionError("Failed to save json data from crt.sh")
 

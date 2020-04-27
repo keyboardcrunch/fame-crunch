@@ -83,7 +83,7 @@ class DnsDumpster(ProcessingModule):
             with open(csv_save, "w") as cf:
                 cf.write(re.sub("[\t]", ",", dnsd))
                 cf.close()
-            self.add_support_file(os.path.basename(csv_save), csv_save)
+            self.add_support_file(csv_file, csv_save)
 
         # Reverse DNS
         if self.reverse_dns:

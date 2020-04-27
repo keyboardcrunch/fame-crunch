@@ -5,28 +5,26 @@
         </div>
         <div class="content">
             <p class="category">Top {{ results['cert_count'] }} Results</p>
-            <div class="labeled_content">
-                <table class="table table-bordered" style="table-layout: fixed; width: 100%"></table>
-                    <thead>
-                        <tr>
-                            <th scope="col"> ID </th>
-                            <th scope="col"> Issuer </th>
-                            <th scope="col"> Domain </th>
-                            <th scope="col"> Timestamp </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for cert in results['top_certs'] %}
-                        <tr>
-                            <td><a href="https://crt.sh/?id={{cert.id}}">{{ cert['id'] }}</a></td>
-                            <td>{{ cert['issuer_name'] }}</td>
-                            <td>{{ cert['name_value'] }}</td>
-                            <td>{{ cert['entry_timestamp'] }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            <table class="table table-bordered" style="table-layout: fixed; width: 100%"></table>
+                <thead>
+                    <tr>
+                        <th scope="col"> ID </th>
+                        <th scope="col"> Issuer </th>
+                        <th scope="col"> Domain </th>
+                        <th scope="col"> Timestamp </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cert in results['top_certs'] %}
+                    <tr>
+                        <td><a href="https://crt.sh/?id={{cert.id}}">{{ cert['id'] }}</a></td>
+                        <td>{{ cert['issuer_name'] }}</td>
+                        <td>{{ cert['name_value'] }}</td>
+                        <td>{{ cert['entry_timestamp'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
