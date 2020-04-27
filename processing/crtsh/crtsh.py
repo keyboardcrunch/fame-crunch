@@ -70,10 +70,10 @@ class Crtsh(ProcessingModule):
         # We want to gather data in a way to present the details.html template as default
         vc = 0
         certs = []
-        for (key, value) in enumerate(json_data): # Add first X cert dicts to a list
-            while vc < self.cert_count:
-                #certs.append(value)
-                certs.append(json.load(value))
+        for (key, value) in enumerate(json_data):
+            if vc < self.cert_count:
+                entry = {'id': value['id'], 'issuer_name': value['issuer_name'], 'name_value': value['name_value'], 'entry_timestamp': value['entry_timestamp']}
+                certs.append(entry)
                 vc += 1
         self.results['top_certs'] = certs
 

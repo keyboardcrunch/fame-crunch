@@ -18,8 +18,8 @@
                     {% for cert in results['top_certs'] %}
                     <tr>
                         <td><a href="https://crt.sh/?id={{cert.id}}">{{ cert['id'] }}</a></td>
-                        <td>{{ cert['issuer_name'] }}</td>
                         <td>{{ cert['name_value'] }}</td>
+                        <td>{{ cert['issuer_name'] }}</td>
                         <td>{{ cert['entry_timestamp'] }}</td>
                     </tr>
                     {% endfor %}
