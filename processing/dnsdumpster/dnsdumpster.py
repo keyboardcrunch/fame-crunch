@@ -1,7 +1,5 @@
 import os
 import sys
-import json
-import re
 
 from fame.core.module import ProcessingModule
 from fame.common.constants import VENDOR_ROOT
@@ -46,10 +44,10 @@ class DnsDumpster(ProcessingModule):
             'description': 'Grab HTTP server headers from URL using HackerTarget.'
         },
         {
-            'name': 'save_csv',
+            'name': 'save_json',
             'type': 'bool',
-            'default': False,
-            'description': 'Save DNS lookup data to a csv file.'
+            'default': True,
+            'description': 'Save DNS lookup data to a json file.'
         },
     ]
 
@@ -71,21 +69,23 @@ class DnsDumpster(ProcessingModule):
         dnsdump = dnsdmpstr.dnsdmpstr()
 
         # DNS Data
-        self.log("info", 'gathering dns data...')
+        self.log("info", 'gathering dns data for {}'.format(root_domain))
         self.results['dns_data'] = dnsdump.dnslookup(root_domain)
 
         # Save csv data
-        if self.save_csv:
+        if self.save_json:
+            import json
             try:
                 tmpdir = tempdir()
-                csv_file = "{}.csv".format(domain.domain)
-                csv_save = os.path.join(tmpdir, csv_file)
-                with open(csv_save, "w") as cf:
-                    cf.write(re.sub("[\t]", ",", self.results['dns_data']))
+                json = json.dumps(dnsdump.dnslookup(root_domain), indent=4, separators=(',',':'))
+                json_file = "{}.json".format(domain.domain)
+                json_save = os.path.join(tmpdir, json_file)
+                with open(json_save, "w") as cf:
+                    cf.write(json)
                     cf.close()
-                self.add_support_file("DNS Data", csv_save)
+                self.add_support_file("DNS Data", json_save)
             except:
-                self.log("error", 'failed to save csv output.')
+                self.log("error", 'failed to save json output.')
                 pass
 
         # Reverse DNS
