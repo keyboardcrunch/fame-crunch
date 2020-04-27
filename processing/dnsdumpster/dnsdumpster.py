@@ -86,7 +86,7 @@ class DnsDumpster(ProcessingModule):
                 self.add_support_file("DNS Data", csv_save)
             except:
                 self.log("error", 'failed to save csv output.')
-                continue
+                pass
 
         # Reverse DNS
         if self.reverse_dns:
