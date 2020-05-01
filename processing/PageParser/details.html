@@ -1,0 +1,54 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">PageParser</h4> 
+        </div>
+        <div class="content">
+            <div class="content row">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a href="#content" class="nav-link active" data-toggle="tab">Content</a>
+                    </li>
+
+                    {% if 'forms' in results %}
+                    <li class="nav-item">
+                        <a href="#forms" class="nav-link active" data-toggle="tab">Forms</a>
+                    </li>
+                    {% endif %}
+
+                    {% if 'links' in results %}
+                    <li class="nav-item">
+                        <a href="#links" class="nav-link active" data-toggle="tab">Links</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+                <div class="tab-content clearfix">
+                    {% if 'content' in results %}
+                    <div class="tab-pane fade active in" id="content" role="tabpanel">
+                        <div class="labeled_content">
+                            <pre><code>{{ results['content'] }}</code></pre>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if 'forms' in results %}
+                    <div class="tab-pane fade" id="forms" role="tabpanel">
+                        <div class="labeled_content">
+                            <pre><code>{{ results['forms'] }}</code></pre>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if 'links' in results %}
+                    <div class="tab-pane fade" id="links" role="tabpanel">
+                        <div class="labeled_content">
+                            <pre><code>{{ results['links'] }}</code></pre>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
