@@ -53,11 +53,11 @@ class PageParser(ProcessingModule):
             soup = BeautifulSoup(req.text, 'lxml')
 
             # Link list
-            self.results['links'] = GetLinks(soup)
+            self.results['links'] = self.GetLinks(soup)
 
             # Form list
             forms = []
-            for form in GetForms(soup):
+            for form in self.GetForms(soup):
                 forms.append({form['action'], form['content']})
             self.results['forms'] == forms
 
