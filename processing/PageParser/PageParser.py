@@ -57,24 +57,18 @@ class PageParser(ProcessingModule):
 
 
             # Link list
-            try:
-                self.results['links'] = self.GetLinks(soup)
-            except:
-                pass
+            self.results['links'] = self.GetLinks(soup)
 
             # Form list
-            try:
-                forms = []
-                formlist = self.GetForms(soup)
-                for form in formlist:
-                    forms.append({form['action'], form['content']})
-                self.results['forms'] == forms   
-            except:
-                pass            
+            forms = []
+            formlist = self.GetForms(soup)
+            for form in formlist:
+                forms.append({form['action'], form['content']})
+            self.results['forms'] == forms   
 
             # PrettyPrinted content source
             source = soup.prettify()
-            self.results['source'] == source
+            self.results['source'] == soup
 
             return True
         else:
