@@ -50,16 +50,28 @@ class PageParser(ProcessingModule):
         # Request the page
         req = requests.get(url)
         if req.status_code == 200:
-            soup = BeautifulSoup(req.text, 'lxml')
+            try:
+                soup = BeautifulSoup(req.text, 'lxml')
+            except:
+                self.log("debug", "BS4 unable to parse the page.")
+                return False
+
 
             # Link list
-            self.results['links'] = self.GetLinks(soup)
+            try:
+                self.results['links'] = self.GetLinks(soup)
+            except:
+                pass
 
             # Form list
-            forms = []
-            for form in self.GetForms(soup):
-                forms.append({form['action'], form['content']})
-            self.results['forms'] == forms
+            try:
+                forms = []
+                formlist = self.GetForms(soup)
+                for form in formlist:
+                    forms.append({form['action'], form['content']})
+                self.results['forms'] == forms   
+            except:
+                pass            
 
             # PrettyPrinted content source
             pp = pprint.PrettyPrinter(indent=4)
