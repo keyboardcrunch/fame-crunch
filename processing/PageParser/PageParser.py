@@ -1,4 +1,3 @@
-import pprint
 from fame.core.module import ProcessingModule
 from fame.common.exceptions import ModuleInitializationError
 
@@ -74,8 +73,7 @@ class PageParser(ProcessingModule):
                 pass            
 
             # PrettyPrinted content source
-            pp = pprint.PrettyPrinter(indent=4)
-            self.results['content'] == pp.pprint(soup)
+            self.results['content'] == soup.prettify()
 
             return True
         else:
