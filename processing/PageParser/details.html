@@ -24,13 +24,11 @@
                 </ul>
 
                 <div class="tab-content clearfix">
-                    {% if 'content' in results %}
                     <div class="tab-pane fade active in" id="content" role="tabpanel">
                         <div class="labeled_content">
-                            <pre><code>{{ results['content'] }}</code></pre>
+                            <pre><code>{{ results['source'] }}</code></pre>
                         </div>
                     </div>
-                    {% endif %}
 
                     {% if 'forms' in results %}
                     <div class="tab-pane fade" id="forms" role="tabpanel">
