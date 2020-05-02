@@ -51,6 +51,7 @@ class Teams(ReportingModule):
 
         # Compile and send message
         message.title("FAME Analysis Completed")
+        message.summary("New analysis ready for review at: {0}/analyses/{1}".format(self.fame_base_url, analysis['_id']))
 
         target_section = pymsteams.cardsection()
         target_section.title("Targets")
@@ -76,5 +77,5 @@ class Teams(ReportingModule):
             classification_section.text("{0}".format(','.join(analysis['probable_names'])))
             message.addSection(classification_section)
 
-        message.addLinkButton("View Analysis", "<{0}/analyses/{1}".format(self.fame_base_url, analysis['_id']))
+        message.addLinkButton("View Analysis", "{0}/analyses/{1}".format(self.fame_base_url, analysis['_id']))
         message.send()
