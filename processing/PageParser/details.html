@@ -35,8 +35,7 @@
                     <div class="tab-pane fade" id="forms" role="tabpanel">
                         <div class="labeled_content">
                             {% for form in results['forms'] %}
-                                <p><b>Action: </b>form['action']</p>
-                                <pre><code>{{ form['content'] }}</code></pre>
+                                <pre><code>{{ form }}</code></pre>
                             {% endfor %}
                         </div>
                     </div>

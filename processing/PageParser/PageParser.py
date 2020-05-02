@@ -35,13 +35,6 @@ class PageParser(ProcessingModule):
                 pass
         return links
 
-    def GetForms(self, soup):
-        forms = []
-        form_search = soup.find_all('form')
-        for form in form_search:
-            forms.append({'content':form, 'action': form.get('action')})
-        return forms
-
     def each(self, target):
         url = target
         self.results = {}
@@ -60,8 +53,8 @@ class PageParser(ProcessingModule):
             self.results['links'] = self.GetLinks(soup)
 
             # Form list
-            formlist = self.GetForms(soup)
-            self.results['forms'] = formlist
+            forms = soup.find_all('form')
+            self.results['forms'] = forms
 
             # PrettyPrinted content source
             source = soup.prettify()
