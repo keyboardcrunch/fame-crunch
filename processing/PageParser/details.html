@@ -26,7 +26,7 @@
                 <div class="tab-content clearfix">
                     <div class="tab-pane fade active in" id="content" role="tabpanel">
                         <div class="labeled_content">
-                            <pre><code>{{ results['source'] }}</code></pre>
+                            <pre><code style="max-height: 800px;">{{ results['source'] }}</code></pre>
                         </div>
                     </div>
 
@@ -35,7 +35,7 @@
                     <div class="tab-pane fade" id="forms" role="tabpanel">
                         <div class="labeled_content">
                             {% for form in results['forms'] %}
-                                <pre><code>{{ form }}</code></pre>
+                                <pre><code style="max-height: 800px;">{{ form }}</code></pre>
                             {% endfor %}
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                     {% if 'links' in results %}
                     <div class="tab-pane fade" id="links" role="tabpanel">
                         <div class="labeled_content">
-                            <pre><code>{{ results['links'] }}</code></pre>
+                            <pre><code style="max-height: 800px;">{{ results['links'] }}</code></pre>
                         </div>
                     </div>
                     {% endif %}
