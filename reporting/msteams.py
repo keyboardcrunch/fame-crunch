@@ -5,15 +5,15 @@ from fame.core.module import ReportingModule
 
 try:
     import pymsteams
-    has_teams = True
+    HAS_TEAMS = True
 except ImportError:
-    has_teams = False
+    HAS_TEAMS = False
 
 try:
     from defang import defang
-    has_defang = True
+    HAS_DEFANG = True
 except ImportError:
-    has_defang = False
+    HAS_DEFANG = False
 
 
 class Teams(ReportingModule):
@@ -35,10 +35,10 @@ class Teams(ReportingModule):
 
     def initialize(self):
         if ReportingModule.initialize(self):
-            if not has_teams:
+            if not HAS_TEAMS:
                 raise ModuleInitializationError(self, "Missing dependency: pymsteams")
 
-            if not has_defang:
+            if not HAS_DEFANG:
                 raise ModuleInitializationError(self, "Missing dependency: defang")
 
             return True
@@ -47,22 +47,34 @@ class Teams(ReportingModule):
 
     def done(self, analysis):
         # Teams connector
-        mh = pymsteams.connectorcard(self.url)
-
-        # Build analysis message
-        string = "Target: {0}\n".format(defang(', '.join(analysis._file['names'])))
-
-        if analysis['modules'] is not None:
-            string += "\n\nModules: {0}\n".format(analysis['modules'])
-
-        if len(analysis['extractions']) > 0:
-            string += "\n\nExtractions: {0}\n".format(','.join([x['label'] for x in analysis['extractions']]))
-
-        if len(analysis['probable_names']) > 0:
-            string += "\n\nProbable Names: {0}\n".format(','.join(analysis['probable_names']))
+        message = pymsteams.connectorcard(self.url)
 
         # Compile and send message
-        mh.title("FAME Analysis Completed")
-        mh.text(string)
-        mh.addLinkButton("View Analysis", "<{0}/analyses/{1}|See analysis>".format(self.fame_base_url, analysis['_id']))
-        mh.send()
+        message.title("FAME Analysis Completed")
+
+        target_section = pymsteams.cardsection()
+        target_section.title("Targets")
+        target_section.text(defang(', '.join(analysis._file['names'])))
+        message.addSection(target_section)
+
+        # May want to use addFact() on below sections for showing lists
+        if analysis['modules'] is not None:
+            module_section = pymsteams.cardsection()
+            module_section.title("Analysis Modules")
+            module_section.text(analysis['modules'])
+            message.addSection(module_section)
+
+        if len(analysis['extractions']) > 0:
+            extraction_section = pymsteams.cardsection()
+            extraction_section.title("Extracted Items")
+            extraction_section.text("{0}".format(','.join([x['label'] for x in analysis['extractions']])))
+            message.addSection(extraction_section)
+
+        if len(analysis['probable_names']) > 0:
+            classification_section = pymsteams.cardsection()
+            classification_section.title("Probably Names")
+            classification_section.text("{0}".format(','.join(analysis['probable_names'])))
+            message.addSection(classification_section)
+
+        message.addLinkButton("View Analysis", "<{0}/analyses/{1}|See analysis>".format(self.fame_base_url, analysis['_id']))
+        message.send()
