@@ -62,7 +62,7 @@ class PageParser(ProcessingModule):
 
             # PrettyPrinted content source
             source = soup.prettify()
-            self.results['source'] = soup
+            self.results['source'] = source
 
             return True
         else:
