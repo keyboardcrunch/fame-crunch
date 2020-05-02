@@ -46,24 +46,23 @@ class Teams(ReportingModule):
             return False
 
     def done(self, analysis):
-        # Build analysis message
-        string = "Just finished analysis on {0}\n".format(defang(', '.join(analysis._file['names'])))
-
-        if analysis['modules'] is not None:
-            string += "Target: {0}\n".format(analysis['modules'])
-
-        if len(analysis['extractions']) > 0:
-            string += "Extractions: {0}\n".format(','.join([x['label'] for x in analysis['extractions']]))
-
-        if len(analysis['probable_names']) > 0:
-            string += "Probable Names: {0}\n".format(','.join(analysis['probable_names']))
-
-        string += "<{0}/analyses/{1}|See analysis>".format(self.fame_base_url, analysis['_id'])
-
-        data = {'text': string}
-
         # Teams connector
         mh = pymsteams.connectorcard(self.url)
+
+        # Build analysis message
+        string = "Target: {0}\n".format(defang(', '.join(analysis._file['names'])))
+
+        if analysis['modules'] is not None:
+            string += "\n\nModules: {0}\n".format(analysis['modules'])
+
+        if len(analysis['extractions']) > 0:
+            string += "\n\nExtractions: {0}\n".format(','.join([x['label'] for x in analysis['extractions']]))
+
+        if len(analysis['probable_names']) > 0:
+            string += "\n\nProbable Names: {0}\n".format(','.join(analysis['probable_names']))
+
+        # Compile and send message
         mh.title("FAME Analysis Completed")
         mh.text(string)
+        mh.addLinkButton("View Analysis", "<{0}/analyses/{1}|See analysis>".format(self.fame_base_url, analysis['_id']))
         mh.send()
