@@ -60,11 +60,8 @@ class PageParser(ProcessingModule):
             self.results['links'] = self.GetLinks(soup)
 
             # Form list
-            forms = []
             formlist = self.GetForms(soup)
-            for form in formlist:
-                forms.append({"action": form['action'], "content": form['content']})
-            self.results['forms'] == forms   
+            self.results['forms'] == formlist
 
             # PrettyPrinted content source
             source = soup.prettify()
