@@ -61,11 +61,11 @@ class PageParser(ProcessingModule):
 
             # Form list
             formlist = self.GetForms(soup)
-            self.results['forms'] == formlist
+            self.results['forms'] = formlist
 
             # PrettyPrinted content source
             source = soup.prettify()
-            self.results['source'] == soup
+            self.results['source'] = soup
 
             return True
         else:
