@@ -63,7 +63,7 @@ class PageParser(ProcessingModule):
             forms = []
             formlist = self.GetForms(soup)
             for form in formlist:
-                forms.append({form['action'], form['content']})
+                forms.append({"action": form['action'], "content": form['content']})
             self.results['forms'] == forms   
 
             # PrettyPrinted content source

@@ -31,9 +31,13 @@
                     </div>
 
                     {% if 'forms' in results %}
+                    <!-- We need to show form['action'] and form['content'] -->
                     <div class="tab-pane fade" id="forms" role="tabpanel">
                         <div class="labeled_content">
-                            <pre><code>{{ results['forms'] }}</code></pre>
+                            {% for form in results['forms'] %}
+                                <p><b>Action: </b>form['action']</p>
+                                <pre><code>{{ form['content'] }}</code></pre>
+                            {% endfor %}
                         </div>
                     </div>
                     {% endif %}
