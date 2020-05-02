@@ -61,7 +61,7 @@ class Teams(ReportingModule):
         if analysis['modules'] is not None:
             module_section = pymsteams.cardsection()
             module_section.title("Analysis Modules")
-            module_section.text(analysis['modules'])
+            module_section.text(', '.join(analysis['modules']))
             message.addSection(module_section)
 
         if len(analysis['extractions']) > 0:
@@ -76,5 +76,5 @@ class Teams(ReportingModule):
             classification_section.text("{0}".format(','.join(analysis['probable_names'])))
             message.addSection(classification_section)
 
-        message.addLinkButton("View Analysis", "<{0}/analyses/{1}|See analysis>".format(self.fame_base_url, analysis['_id']))
+        message.addLinkButton("View Analysis", "<{0}/analyses/{1}".format(self.fame_base_url, analysis['_id']))
         message.send()
