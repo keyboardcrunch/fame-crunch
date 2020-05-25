@@ -15,7 +15,6 @@ class GreyNoise(ProcessingModule):
     name = "GreyNoise"
     description = "GreyNoise domain/IP enrichment and tagging."
     acts_on = ['url']
-    triggered_by = "ip"
 
     config = [
         {
