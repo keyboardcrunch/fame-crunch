@@ -64,7 +64,7 @@ class GreyNoise(ProcessingModule):
         if not r.status_code == 200:
             self.log("error", "GreyNoise says {}".format(apistatus[r.status_code]))
         else:
-            self.results['greydata'] = json.dumps(r.json())
+            self.results['greydata'] = json.dumps(r.json(), indent=4)
             data = r.json()
             # https://docs.greynoise.io/?python#ip-context
             # if seen==True -> Grab classification, actor, tags, metadata.tor
@@ -72,7 +72,7 @@ class GreyNoise(ProcessingModule):
                 tags = []
                 if data["classification"] == "malicious":
                     tags.append(data["classification"])
-                    if not data["actor"] == "Unknown":
+                    if not data["actor"] == "unknown":
                         tags.append(data["actor"])
                     
                 if data["metadata"]["tor"]:
@@ -80,7 +80,7 @@ class GreyNoise(ProcessingModule):
 
                 for item in data["tags"]:
                     tags.append(item)
-                    
+
                 self.add_ioc(aip, tags)
 
         return True
