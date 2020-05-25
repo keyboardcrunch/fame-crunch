@@ -71,12 +71,16 @@ class GreyNoise(ProcessingModule):
             if data["seen"]:
                 tags = []
                 if data["classification"] == "malicious":
-                    tags.append(data["actor"])
                     tags.append(data["classification"])
-                    for item in data["tags"]:
-                        tags.append(item)
+                    if not data["actor"] == "Unknown":
+                        tags.append(data["actor"])
+                    
                 if data["metadata"]["tor"]:
                         tags.append("TOR")
+
+                for item in data["tags"]:
+                    tags.append(item)
+                    
                 self.add_ioc(aip, tags)
 
         return True
