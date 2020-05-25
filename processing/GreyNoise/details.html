@@ -4,8 +4,29 @@
             <h4 class="title">GreyNoise</h4> 
         </div>
         <div class="content">
+            <button type="button" class="btn btn-danger">{{ results['greydata']['classification'] }}</button>
+            {% for tag in results['greydata']['tags'] %}
+                <button type="button" class="btn btn-warning">{{tag}}</button>
+            {% endfor %}
+
+            <label>Metadata for {{ results['greydata']['ip'] }}</label>
+            <table class='table table-bordered'>
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Value</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for name,value in results['greydata']['metadata'] %}
+                        <td>{{ name }}</td>
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tbody>
+            </table>
+
             <div class="labeled_content">
-                <pre><code style="max-height: 800px;">{{ results['greydata'] }}</code></pre>
+                <pre><code style="max-height: 300px;">{{ results['greydata'] }}</code></pre>
             </div>
         </div>
     </div>
