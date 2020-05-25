@@ -5,23 +5,23 @@
         </div>
         <div class="content">
             {% if results['greydata']['seen'] %}
-                <button type="button" class="btn btn-outline-primary">{{ results['greydata']['ip'] }}</button>
+                <button type="button" class="btn btn-primary">{{ results['greydata']['ip'] }}</button>
                 {% if results['greydata']['classication'] == "malicious" %}
-                    <button type="button" class="btn btn-outline-danger">{{ results['greydata']['classification'] }}</button>
+                    <button type="button" class="btn btn-danger">{{ results['greydata']['classification'] }}</button>
                 {% else %}
-                    <button type="button" class="btn btn-outline-warning">{{ results['greydata']['classification'] }}</button>
+                    <button type="button" class="btn btn-warning">{{ results['greydata']['classification'] }}</button>
                 {% endif %}
 
                 {% for tag in results['tags'] %}
-                    <button type="button" class="btn btn-outline-warning">{{ tag }}</button>
+                    <button type="button" class="btn btn-warning">{{ tag }}</button>
                 {% endfor %}
 
                 {% if results['greydata']['tor'] %}
-                    <button type="button" class="btn btn-outline-warning">tor</button>
+                    <button type="button" class="btn btn-warning">tor</button>
                 {% endif %}
 
                 {% if results['greydata']['actor'] != "unknown" %}
-                    <button type="button" class="btn btn-outline-danger">{{ results['greydata']['actor'] }}</button>
+                    <button type="button" class="btn btn-danger">{{ results['greydata']['actor'] }}</button>
                 {% endif %}
 
             <div class="content row">
