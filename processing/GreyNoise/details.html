@@ -6,7 +6,7 @@
         <div class="content">
             {% if results['greydata']['seen'] %}
                 <button type="button" class="btn btn-primary">{{ results['greydata']['ip'] }}</button>
-                {% if results['greydata']['classication'] == "malicious" %}
+                {% if results['greydata']['classification'] == "malicious" %}
                     <button type="button" class="btn btn-danger">{{ results['greydata']['classification'] }}</button>
                 {% else %}
                     <button type="button" class="btn btn-warning">{{ results['greydata']['classification'] }}</button>
