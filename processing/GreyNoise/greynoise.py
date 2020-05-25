@@ -65,7 +65,7 @@ class GreyNoise(ProcessingModule):
         if not r.status_code == 200:
             self.log("error", "GreyNoise says {}".format(apistatus[r.status_code]))
         else:
-            self.results['greydata'] = r.json()
+            self.results['greydata'] = json.dumps(r.json())
             data = r.json()
             # https://docs.greynoise.io/?python#ip-context
             # if seen==True -> Grab classification, actor, tags, metadata.tor
