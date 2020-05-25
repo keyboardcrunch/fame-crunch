@@ -66,6 +66,7 @@ class GreyNoise(ProcessingModule):
             data = r.json()
             #self.results['greydata'] = json.dumps(data, indent=4, separators=(',',':'))
             self.results['greydata'] = data
+            self.results['json'] = json.dumps(data, indent=4)
             
             
 

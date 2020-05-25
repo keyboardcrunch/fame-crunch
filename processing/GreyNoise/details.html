@@ -4,16 +4,43 @@
             <h4 class="title">GreyNoise</h4> 
         </div>
         <div class="content">
-            <button type="button" class="btn btn-danger">{{ results['greydata']['classification'] }}</button>
-            {% for tag in results['tags'] %}
-                <button type="button" class="btn btn-warning">{{ tag }}</button>
-            {% endfor %}
+            {% if results['greydata']['seen'] %}
+                {% if results['greydata']['classication'] == "malicous" %}
+                    <button type="button" class="btn btn-danger">{{ results['greydata']['classification'] }}</button>
+                {% else %}
+                    <button type="button" class="btn btn-warning">{{ results['greydata']['classification'] }}</button>
+                {% endif %}
 
+                {% for tag in results['tags'] %}
+                    <button type="button" class="btn btn-warning">{{ tag }}</button>
+                {% endfor %}
 
+                {% if results['greydata']['tor'] %}
+                    <button type="button" class="btn btn-outline-warning">tor</button>
+                {% endif %}
 
-            <div class="labeled_content">
-                <pre><code style="max-height: 300px;">{{ results['greydata'] }}</code></pre>
-            </div>
+                <label>Metadata for {{ results['greydata']['ip] }}</label>
+                <table class='table table-bordered'>
+                    <thead>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, value in results['metadata'].items() %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td>{{ value }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+                <div class="labeled_content">
+                    <pre><code style="max-height: 300px;">{{ results['json'] }}</code></pre>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
