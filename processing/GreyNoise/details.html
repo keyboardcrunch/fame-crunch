@@ -5,8 +5,8 @@
         </div>
         <div class="content">
             <button type="button" class="btn btn-danger">{{ results['greydata']['classification'] }}</button>
-            {% for tag in results['greydata']['tags'] %}
-                <button type="button" class="btn btn-warning">{{tag}}</button>
+            {% for tag in results['tags'] %}
+                <button type="button" class="btn btn-warning">{{ tag }}</button>
             {% endfor %}
 
             <label>Metadata for {{ results['greydata']['ip'] }}</label>
@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for name,value in results['greydata']['metadata'] %}
+                    {% for name,value in results['metadata'] %}
                         <td>{{ name }}</td>
                         <td>{{ value }}</td>
                     {% endfor %}

@@ -66,6 +66,8 @@ class GreyNoise(ProcessingModule):
             data = r.json()
             #self.results['greydata'] = json.dumps(data, indent=4, separators=(',',':'))
             self.results['greydata'] = data
+            
+            
 
             # https://docs.greynoise.io/?python#ip-context
             # if seen==True -> Grab classification, actor, tags, metadata.tor
@@ -81,6 +83,10 @@ class GreyNoise(ProcessingModule):
 
                 for item in data["tags"]:
                     tags.append(item)
+
+                self.results["classification"] = data["classification"]
+                self.results['tags'] = data["tags"]
+                self.results['metadata'] = data["metadata"]
 
                 self.add_ioc(aip, tags)
 
