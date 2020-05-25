@@ -9,21 +9,7 @@
                 <button type="button" class="btn btn-warning">{{ tag }}</button>
             {% endfor %}
 
-            <label>Metadata for {{ results['greydata']['ip'] }}</label>
-            <table class='table table-bordered'>
-                <thead>
-                    <tr>
-                        <td>Name</td>
-                        <td>Value</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for name,value in results['metadata'] %}
-                        <td>{{ name }}</td>
-                        <td>{{ value }}</td>
-                    {% endfor %}
-                </tbody>
-            </table>
+
 
             <div class="labeled_content">
                 <pre><code style="max-height: 300px;">{{ results['greydata'] }}</code></pre>
