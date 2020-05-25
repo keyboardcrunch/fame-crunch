@@ -5,7 +5,8 @@
         </div>
         <div class="content">
             {% if results['greydata']['seen'] %}
-                {% if results['greydata']['classication'] == "malicous" %}
+                <button type="button" class="btn btn-outline-primary">{{ results['greydata']['ip'] }}</button>
+                {% if results['greydata']['classication'] == "malicious" %}
                     <button type="button" class="btn btn-danger">{{ results['greydata']['classification'] }}</button>
                 {% else %}
                     <button type="button" class="btn btn-warning">{{ results['greydata']['classification'] }}</button>
@@ -22,14 +23,14 @@
             <div class="content row">
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item">
-                        <a href="#gnmetadata" class="nav-link active" data-toggle="tab">Metadata ({{ results['greydata']['ip'] }})</a>
+                        <a href="#gnmetadata" class="nav-link active" data-toggle="tab">Metadata</a>
                     </li>
                     <li class="nav-item">
                         <a href="#gnjson" class="nav-link active" data-toggle="tab">JSON</a>
                     </li>
                 </ul>
 
-                <div class="tab-content clearfix"></div>
+                <div class="tab-content clearfix">
                     <div class="tab-pane fade active in" id="gnmetadata" role="tabpanel">
                         <table class='table table-sm'>
                             <tbody>
