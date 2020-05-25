@@ -7,17 +7,21 @@
             {% if results['greydata']['seen'] %}
                 <button type="button" class="btn btn-outline-primary">{{ results['greydata']['ip'] }}</button>
                 {% if results['greydata']['classication'] == "malicious" %}
-                    <button type="button" class="btn btn-danger">{{ results['greydata']['classification'] }}</button>
+                    <button type="button" class="btn btn-outline-danger">{{ results['greydata']['classification'] }}</button>
                 {% else %}
-                    <button type="button" class="btn btn-warning">{{ results['greydata']['classification'] }}</button>
+                    <button type="button" class="btn btn-outline-warning">{{ results['greydata']['classification'] }}</button>
                 {% endif %}
 
                 {% for tag in results['tags'] %}
-                    <button type="button" class="btn btn-warning">{{ tag }}</button>
+                    <button type="button" class="btn btn-outline-warning">{{ tag }}</button>
                 {% endfor %}
 
                 {% if results['greydata']['tor'] %}
                     <button type="button" class="btn btn-outline-warning">tor</button>
+                {% endif %}
+
+                {% if results['greydata']['actor'] not "unknown" %}
+                    <button type="button" class="btn btn-outline-danger">{{ results['greydata']['actor'] }}</button>
                 {% endif %}
 
             <div class="content row">
@@ -46,7 +50,7 @@
 
                     <div class="tab-pane fade" id="gnjson" role="tabpanel">
                         <div class="labeled_content">
-                            <pre><code style="max-height: 800px;">{{ results['json'] }}</code></pre>
+                            <pre><code style="max-height: 600px;">{{ results['json'] }}</code></pre>
                         </div>
                     </div>
                 </div>
