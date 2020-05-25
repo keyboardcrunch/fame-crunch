@@ -69,14 +69,14 @@ class GreyNoise(ProcessingModule):
             # https://docs.greynoise.io/?python#ip-context
             # if seen==True -> Grab classification, actor, tags, metadata.tor
             if data["seen"]:
+                tags = []
                 if data["classification"] == "malicious":
-                    tags = []
                     tags.append(data["actor"])
                     tags.append(data["classification"])
-                    if data["metadata"]["tor"]:
-                        tags.append("TOR")
                     for item in data["tags"]:
                         tags.append(item)
-                    self.add_ioc(aip, tags)
+                if data["metadata"]["tor"]:
+                        tags.append("TOR")
+                self.add_ioc(aip, tags)
 
         return True
