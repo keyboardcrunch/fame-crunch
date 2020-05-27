@@ -1,0 +1,27 @@
+<div class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">XLM Deobfuscator</h4> 
+        </div>
+        <div class="content">
+            <table class='table table-sm'>
+                <thead>
+                    <tr>
+                        <th scope="col">Cell</th>
+                        <th scope="col">Eval</th>
+                        <th scope="col">Formula</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in results['macros'].items() %}
+                    <tr>
+                        <td>{{ entry["Cell"] }}</td>
+                        <td>{{ entry["Eval"] }}</td>
+                        <td>{{ entry["Formula"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
