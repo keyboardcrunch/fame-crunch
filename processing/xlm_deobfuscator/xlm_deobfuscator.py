@@ -1,3 +1,4 @@
+import os
 from fame.core.module import ProcessingModule, ModuleInitializationError
 from ..docker_utils import HAVE_DOCKER, docker_client
 
@@ -20,7 +21,8 @@ class XlmDeobfuscator(ProcessingModule):
             raise ModuleInitializationError(self, "Missing dependency: URLExtract")
 
     def parse_data(self, data):
-        macros = [] # {'Cell':'', Formula':''}
+        # {'Cell':'', Formula':''}
+        macros = []
         sstr = "[Starting Deobfuscation]"
         estr = "[END of Deobfuscation]"
         start = data.rindex(sstr) + len(sstr)
@@ -37,7 +39,7 @@ class XlmDeobfuscator(ProcessingModule):
         return macros
 
     def deobfuscate(self, target):
-        args = 'python3 {} {}'.format('./script.py', 'target')
+        args = 'python3 {} {}'.format('./script.py', os.path.basename(target))
         return docker_client.containers.run(
             'fame/xlm_deobfuscator',
             args,
