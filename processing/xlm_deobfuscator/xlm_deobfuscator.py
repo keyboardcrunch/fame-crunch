@@ -1,8 +1,4 @@
-# coding: utf-8
-
-
 from fame.core.module import ProcessingModule, ModuleInitializationError
-from ..docker_utils import HAVE_DOCKER, docker_client
 
 try:
     from urlextract import URLExtract
@@ -10,58 +6,45 @@ try:
 except ImportError:
     HAVE_URLEXTRACT = False
 
+try:
+    from XLMMacroDeobfuscator.deobfuscator import process_file
+    HAVE_DEOBFUSCATOR = True
+except ImportError:
+    HAVE_DEOBFUSCATOR = False
+
 class XlmDeobfuscator(ProcessingModule):
     name = "xlm_deobfuscator"
     description = "Extract Excel macros using XLMMacroDeobfuscator."
     acts_on = ["excel"]
 
     def initialize(self):
-        if not HAVE_DOCKER:
-            raise ModuleInitializationError(self, "Missing dependency: docker")
+        if not HAVE_DEOBFUSCATOR:
+            raise ModuleInitializationError(self, "Missing dependency: XLMMacroDeobfuscator")
         if not HAVE_URLEXTRACT:
-            raise ModuleInitializationError(self, "Missing dependency: urlextract")
+            raise ModuleInitializationError(self, "Missing dependency: URLExtract")
 
     def deobfuscate(self, target):
-        return docker_client.containers.run(
-            'fame/xlm_deobfuscator',
-            os.path.basename(target),
-            volumes={self.outdir: {'bind': '/data', 'mode': 'rw'}},
-            stderr=True,
-            remove=True
-        )
-
-    def parse_data(self, data):
-        # {'Cell':'', 'Eval':'', 'Formula':''}
-        macros = [] 
-        sstr = "[Starting Deobfuscation]"
-        estr = "[END of Deobfuscation]"
-        start = data.rindex(sstr) + len(sstr)
-        end = data.rindex(estr, start)
-        unformatted = data[start:end]
-        lines = unformatted.splitlines()
-        for line in lines:
-            ml = line.split('   ,')
-            try:
-                mc = {'Cell': ml[0].strip(), 'Eval': ml[1].strip(), 'Formula': ml[2]}
-                macros.append(mc)
-            except:
-                pass
+        macros = process_file(file=target, 
+            noninteractive=True, 
+            no_indent=True,
+            no_ms_excel=True,
+            output_formula_format='[[CELL_ADDR]], [[INT-FORMULA]]',
+            return_deobfuscated=True)
         return macros
         
     def find_urls(self, data):
         ex = URLExtract()
         urls = ex.find_urls(str(data))        
-        return urls
+        return set(urls)
 
     def each(self, target):
         self.results = {}
 
         # execute docker container
         output = self.deobfuscate(target)
-        data = self.parse_data(output)
 
-        self.results['macros'] = data
-        self.results['urls'] = self.find_urls(data)
+        self.results['macros'] = output
+        self.results['urls'] = self.find_urls(output)
 
         if len(self.results['urls']) > 0:
             # save extracted URLs as C2 observables

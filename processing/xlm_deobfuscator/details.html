@@ -8,16 +8,14 @@
                 <thead>
                     <tr>
                         <th scope="col">Cell</th>
-                        <th scope="col">Eval</th>
                         <th scope="col">Formula</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for entry in results['macros'].items() %}
+                    {% for cell, formula in results['macros'].items() %}
                     <tr>
-                        <td>{{ entry["Cell"] }}</td>
-                        <td>{{ entry["Eval"] }}</td>
-                        <td>{{ entry["Formula"] }}</td>
+                        <td>{{ cell.strip() }}</td>
+                        <td>{{ formula }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
