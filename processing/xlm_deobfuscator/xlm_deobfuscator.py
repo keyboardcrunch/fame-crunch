@@ -1,7 +1,5 @@
 # coding: utf-8
 
-import os
-import re
 from urlextract import URLExtract
 from fame.core.module import ProcessingModule, ModuleInitializationError
 from ..docker_utils import HAVE_DOCKER, docker_client
