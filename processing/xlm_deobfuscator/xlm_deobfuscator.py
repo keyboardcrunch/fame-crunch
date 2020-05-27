@@ -1,18 +1,25 @@
 # coding: utf-8
 
-from urlextract import URLExtract
+
 from fame.core.module import ProcessingModule, ModuleInitializationError
 from ..docker_utils import HAVE_DOCKER, docker_client
 
+try:
+    from urlextract import URLExtract
+    HAVE_URLEXTRACT = True
+except ImportError:
+    HAVE_URLEXTRACT = False
+
 class XlmDeobfuscator(ProcessingModule):
-    name = 'xlm_deobfuscator'
-    description = 'Extract Excel macros using XLMMacroDeobfuscator.'
-    acts_on = ['excel']
+    name = "xlm_deobfuscator"
+    description = "Extract Excel macros using XLMMacroDeobfuscator."
+    acts_on = ["excel"]
 
     def initialize(self):
         if not HAVE_DOCKER:
             raise ModuleInitializationError(self, "Missing dependency: docker")
-        return True
+        if not HAVE_URLEXTRACT:
+            raise ModuleInitializationError(self, "Missing dependency: urlextract")
 
     def deobfuscate(self, target):
         return docker_client.containers.run(
