@@ -1,2 +1,2 @@
 XLMMacroDeobfuscator
-urlextract
+urlextract-py2.7
