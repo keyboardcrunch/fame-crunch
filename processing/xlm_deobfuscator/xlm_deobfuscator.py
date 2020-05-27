@@ -10,7 +10,6 @@ class XlmDeobfuscator(ProcessingModule):
     name = 'xlm_deobfuscator'
     description = 'Extract Excel macros using XLMMacroDeobfuscator.'
     acts_on = ['excel']
-    triggered_by = "office_macros"
 
     def initialize(self):
         if not HAVE_DOCKER:
