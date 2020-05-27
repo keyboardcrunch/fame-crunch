@@ -19,6 +19,23 @@ class XlmDeobfuscator(ProcessingModule):
         if not HAVE_URLEXTRACT:
             raise ModuleInitializationError(self, "Missing dependency: URLExtract")
 
+    def parse_data(self, data):
+        macros = [] # {'Cell':'', Formula':''}
+        sstr = "[Starting Deobfuscation]"
+        estr = "[END of Deobfuscation]"
+        start = data.rindex(sstr) + len(sstr)
+        end = data.rindex(estr, start)
+        unformatted = data[start:end]
+        lines = unformatted.splitlines()
+        for line in lines:
+            ml = line.split('   ,')
+            try:
+                mc = {'Cell': ml[0].strip(), 'Formula': ml[1].strip()}
+                macros.append(mc)
+            except:
+                pass
+        return macros
+
     def deobfuscate(self, target):
         args = 'python3 {} {}'.format('./script.py', 'target')
         return docker_client.containers.run(
@@ -39,9 +56,10 @@ class XlmDeobfuscator(ProcessingModule):
 
         # execute docker container
         output = self.deobfuscate(target)
+        macros = self.parse_data(output)
 
-        self.results['macros'] = output
-        self.results['urls'] = self.find_urls(output)
+        self.results['macros'] = macros
+        self.results['urls'] = self.find_urls(macros)
 
         if len(self.results['urls']) > 0:
             # save extracted URLs as C2 observables
