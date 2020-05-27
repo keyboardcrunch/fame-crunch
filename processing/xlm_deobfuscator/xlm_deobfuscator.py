@@ -31,7 +31,8 @@ class XlmDeobfuscator(ProcessingModule):
         )
 
     def parse_data(self, data):
-        macros = [] # {'Cell':'', 'Eval':'', 'Formula':''}
+        # {'Cell':'', 'Eval':'', 'Formula':''}
+        macros = [] 
         sstr = "[Starting Deobfuscation]"
         estr = "[END of Deobfuscation]"
         start = data.rindex(sstr) + len(sstr)
