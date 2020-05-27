@@ -57,10 +57,10 @@ class XlmDeobfuscator(ProcessingModule):
 
         # execute docker container
         output = self.deobfuscate(target)
-        data = parse_data(output)
+        data = self.parse_data(output)
 
         self.results['macros'] = data
-        self.results['urls'] = find_urls(data)
+        self.results['urls'] = self.find_urls(data)
 
         if len(self.results['urls']) > 0:
             # save extracted URLs as C2 observables
