@@ -29,7 +29,7 @@ class SiteReport(ProcessingModule):
             category = key
             tech = ', '.join(value)
             stack[category] = tech
-        return stack # dict of category: values string
+        return stack
 
     def getDNS(self, domain):
         # May move to local dig but I enjoy the enriched requests from HT
@@ -39,7 +39,7 @@ class SiteReport(ProcessingModule):
             return "API ERROR"
         else:
             results = dns.text.split('\n')
-            return results # list
+            return results
 
     def getWhois(self, domain):
         # Using hackertarget here because python whois modules suck
@@ -49,7 +49,7 @@ class SiteReport(ProcessingModule):
             return "API ERROR"
         else:
             results = whois.text.split('\n')
-            return results # list
+            return results
 
     def each(self, target):
         self.results = {}
@@ -60,8 +60,10 @@ class SiteReport(ProcessingModule):
         domain_info = {}
         domain_info['domain'] = domain
         domain_info['url'] = target
-        #domain_info['dns'] = getDNS(domain)
-        domain_info['whois'] = getWhois(domain)
+        dns = getDNS(domain)
+        domain_info['dns'] = dns
+        whois = getWhois(domain)
+        domain_info['whois'] = whois
         domain_info['builtwith'] = getStack(target)
 
         for key,val in domain_info.items():
