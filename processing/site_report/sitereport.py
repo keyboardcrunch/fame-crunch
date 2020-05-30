@@ -9,8 +9,6 @@ try:
 except:
     from urlparse import urlparse
 
-
-
 class SiteReport(ProcessingModule):
     name = "site_report"
     description = "Simple domain/site report for reporting phishing sites."
@@ -82,4 +80,5 @@ class SiteReport(ProcessingModule):
             else:
                 self.results['sitereport'] +=  "\r\n\t{}".format(val)
         
+        self.log("burp", self.results['sitereport'])
         return True
