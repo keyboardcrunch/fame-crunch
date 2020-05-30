@@ -36,7 +36,7 @@ class SiteReport(ProcessingModule):
         api = "https://api.hackertarget.com/dnslookup/?q={}".format(domain)
         dns = requests.get(api)
         if dns.status_code != 200:
-            return api_status[dns.status_code]
+            return "API ERROR"
         else:
             results = dns.text.split('\n')
             return results # list
@@ -46,7 +46,7 @@ class SiteReport(ProcessingModule):
         api = "https://api.hackertarget.com/whois/?q={}".format(domain)
         whois = requests.get(api)
         if whois.status_code != 200:
-            return api_status[whois.status_code]
+            return "API ERROR"
         else:
             results = whois.text.split('\n')
             return results # list
@@ -60,7 +60,7 @@ class SiteReport(ProcessingModule):
         domain_info = {}
         domain_info['domain'] = domain
         domain_info['url'] = target
-        domain_info['dns'] = getDNS(domain)
+        #domain_info['dns'] = getDNS(domain)
         domain_info['whois'] = getWhois(domain)
         domain_info['builtwith'] = getStack(target)
 
