@@ -52,40 +52,20 @@ class SiteReport(ProcessingModule):
             return results
 
     def each(self, target):
-        self.results = {}
-        self.results['sitereport'] = ""
-
         domain = urlparse(target).netloc
 
-        domain_info = {}
-        domain_info['domain'] = domain
-        domain_info['url'] = target
-        domain_info['dns'] = self.getDNS(domain)
-        domain_info['whois'] = self.getWhois(domain)
-        domain_info['builtwith'] = self.getStack(target)
-
+        self.results = {}
+        self.results['sitereport'] = ""
         self.results['sitereport'] += "Domain :\t{}".format(domain)
-        self.results['sitereport'] += "URL :\t{}".format(target)
+        self.results['sitereport'] += "\r\n\tURL :\t{}".format(target)
+        self.results['sitereport'] += "\r\nDNS\r\n"
         for entry in self.getDNS(domain):
-            data = ' : '.join(list(entry.values()))
-            self.results['sitereport'] += "\r\nDNS:\r\n\t{}".format(data)
-
-        
-
-        for (key,val) in enumerate(domain_info):
-            self.results['sitereport'] += "\r\n{}".format(key)
-            if type(val) == list:
-                if type(val[0]) == dict:
-                    for entry in val:
-                        data = ' : '.join(list(entry.values()))
-                        self.results['sitereport'] += "\r\n\t{}".format(data)
-                else:
-                    for item in val:
-                        self.results['sitereport'] +=  "\r\n\t{}".format(item)
-            elif type(val) == dict:
-                for k,v in val.items():
-                    self.results['sitereport'] += "\r\n\t{} : {}".format(k,v)
-            else:
-                self.results['sitereport'] +=  "\r\n\t{}".format(val)
+            self.results['sitereport'] += "\r\n\t{}".format(entry)
+        self.results['sitereport'] += "\r\nWhois :\r\n"
+        for item in self.getWhois(domain):
+            self.results['sitereport'] += "\r\n\t{}".format(item)
+        self.results['sitereport'] += "\r\nBuilt-with :"
+        for k,v in self.getStack(target).items():
+            self.results['sitereport'] += "\r\n\t{} : {}".format(k,v)
 
         return True
