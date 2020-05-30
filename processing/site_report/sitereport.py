@@ -72,14 +72,14 @@ class SiteReport(ProcessingModule):
                 if type(val[0]) == dict:
                     for entry in val:
                         data = ' : '.join(list(entry.values()))
-                        self.results['sitereport'] += "\t{}".format(data)
+                        self.results['sitereport'] += "\r\n\t{}".format(data)
                 else:
                     for item in val:
-                        self.results['sitereport'] +=  "\t{}".format(item)
+                        self.results['sitereport'] +=  "\r\n\t{}".format(item)
             elif type(val) == dict:
                 for k,v in val.items():
-                    self.results['sitereport'] += "\t{} : {}".format(k,v)
+                    self.results['sitereport'] += "\r\n\t{} : {}".format(k,v)
             else:
-                self.results['sitereport'] +=  "\t{}".format(val)
+                self.results['sitereport'] +=  "\r\n\t{}".format(val)
         
         return True
