@@ -1,13 +1,10 @@
-from fame.core.module import ProcessingModule
-from fame.common.exceptions import ModuleInitializationError
-
 import builtwith
-import tldextract
 import requests
 try:
     from urllib.parse import urlparse
 except:
     from urlparse import urlparse
+from fame.core.module import ProcessingModule
 
 class SiteReport(ProcessingModule):
     name = "site_report"
@@ -21,8 +18,10 @@ class SiteReport(ProcessingModule):
 
     }
 
-    def getStack(self, domain):
-        # Profile the site's tech stack
+    results = {}
+
+    def get_stack(self, domain):
+        """ Uses builtwith to profile the tech stack; Returns dict with list """
         stack = {}
         data = builtwith.builtwith(domain)
         for key, value in data.items():
@@ -31,41 +30,38 @@ class SiteReport(ProcessingModule):
             stack[category] = tech
         return stack
 
-    def getDNS(self, domain):
-        # May move to local dig but I enjoy the enriched requests from HT
+    def get_dns(self, domain):
+        """ Uses HackerTarget to gather DNS info """
         api = "https://api.hackertarget.com/dnslookup/?q={}".format(domain)
         dns = requests.get(api)
-        if dns.status_code != 200:
-            self.log("debug", "DNS -> {}".format(self.api_status[dns.status_code]))
+        if dns.status_code == 200:
+            return dns.text.split('\n')
         else:
-            results = dns.text.split('\n')
-            return results
+            return "Error with API"
 
-    def getWhois(self, domain):
-        # Using hackertarget here because python whois modules suck
+    def get_whois(self, domain):
+        """ Uses HackerTarget to gather Whois info """
         api = "https://api.hackertarget.com/whois/?q={}".format(domain)
         whois = requests.get(api)
-        if whois.status_code != 200:
-            self.log("debug", "WHOIS -> {}".format(self.api_status[dns.status_code]))
+        if whois.status_code == 200:
+            return whois.text.split('\n')
         else:
-            results = whois.text.split('\n')
-            return results
+            return "Error with API"
 
     def each(self, target):
+        """ Loop through url targets building and returning a txt report """
         domain = urlparse(target).netloc
 
-        self.results = {}
-        self.results['sitereport'] = ""
-        self.results['sitereport'] += "Domain :\t{}".format(domain)
+        self.results['sitereport'] = "Domain :\t{}".format(domain)
         self.results['sitereport'] += "\r\n\tURL :\t{}".format(target)
-        self.results['sitereport'] += "\r\nDNS\r\n"
-        for entry in self.getDNS(domain):
+        self.results['sitereport'] += "\r\nDNS :"
+        for entry in self.get_dns(domain):
             self.results['sitereport'] += "\r\n\t{}".format(entry)
-        self.results['sitereport'] += "\r\nWhois :\r\n"
-        for item in self.getWhois(domain):
+        self.results['sitereport'] += "\r\nWhois :"
+        for item in self.get_whois(domain):
             self.results['sitereport'] += "\r\n\t{}".format(item)
         self.results['sitereport'] += "\r\nBuilt-with :"
-        for k,v in self.getStack(target).items():
-            self.results['sitereport'] += "\r\n\t{} : {}".format(k,v)
+        for key, value in self.get_stack(target).items():
+            self.results['sitereport'] += "\r\n\t{} : {}".format(key, value)
 
         return True
