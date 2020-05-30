@@ -64,7 +64,7 @@ class SiteReport(ProcessingModule):
         domain_info['whois'] = self.getWhois(domain)
         domain_info['builtwith'] = self.getStack(target)
 
-        for key,val in enumerate(domain_info):
+        for (key,val) in enumerate(domain_info):
             self.results['sitereport'] += "\r\n{}".format(key)
             if type(val) == list:
                 if type(val[0]) == dict:
