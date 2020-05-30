@@ -64,6 +64,14 @@ class SiteReport(ProcessingModule):
         domain_info['whois'] = self.getWhois(domain)
         domain_info['builtwith'] = self.getStack(target)
 
+        self.results['sitereport'] += "Domain :\t{}".format(domain)
+        self.results['sitereport'] += "URL :\t{}".format(target)
+        for entry in self.getDNS(domain):
+            data = ' : '.join(list(entry.values()))
+            self.results['sitereport'] += "\r\nDNS:\r\n\t{}".format(data)
+
+        
+
         for (key,val) in enumerate(domain_info):
             self.results['sitereport'] += "\r\n{}".format(key)
             if type(val) == list:
