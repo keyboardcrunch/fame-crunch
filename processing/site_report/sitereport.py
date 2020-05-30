@@ -79,6 +79,5 @@ class SiteReport(ProcessingModule):
                     self.results['sitereport'] += "\r\n\t{} : {}".format(k,v)
             else:
                 self.results['sitereport'] +=  "\r\n\t{}".format(val)
-        
-        self.log("burp", self.results['sitereport'])
+
         return True
