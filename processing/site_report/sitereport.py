@@ -63,7 +63,7 @@ class SiteReport(ProcessingModule):
         domain_info['url'] = target
         domain_info['dns'] = getDNS(domain)
         domain_info['whois'] = getWhois(domain)
-        domain_info['builtwith'] = getStack(site)
+        domain_info['builtwith'] = getStack(target)
 
         for key,val in domain_info.items():
             self.results['sitereport'] += "\r\n{}".format(key)
