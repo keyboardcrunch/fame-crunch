@@ -8,7 +8,7 @@ from ..docker_utils import HAVE_DOCKER, docker_client, temp_volume
 class Strings(ProcessingModule):
     name = "strings"
     description = "Strings file analysis."
-    acts_on = ["exe","pdf","txt"]
+    acts_on = ["executable","pdf","txt","rtf","vbscript","javascript","html","dll"]
 
     def initialize(self):
         if not HAVE_DOCKER:

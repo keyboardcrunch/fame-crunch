@@ -1,6 +1,6 @@
-FROM python:3.7-alpine
+FROM ubuntu:latest
 
-RUN apk add strings
+RUN apt-get update && apt-get install -y strings --no-install-recommends
 
 VOLUME ["/data"]
 
