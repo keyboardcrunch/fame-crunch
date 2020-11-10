@@ -2,4 +2,4 @@
 SCRIPT=`realpath $0`
 SCRIPTPATH=`dirname $SCRIPT`
 
-docker build -t fame/xlm_deobfuscator $SCRIPTPATH/docker
+docker build -t fame/strings $SCRIPTPATH/docker
