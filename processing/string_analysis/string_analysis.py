@@ -7,10 +7,12 @@ from fame.common.exceptions import ModuleInitializationError
 
 from ..docker_utils import HAVE_DOCKER, docker_client, temp_volume
 
-class StringFile(ProcessingModule):
-    name = "strings"
+class StringAnalysis(ProcessingModule):
+    name = "string_analysis"
     description = "Strings file analysis."
     acts_on = ["executable","pdf","txt","rtf","vbscript","javascript","html","dll"]
+
+    config = []
 
     def initialize(self):
         if not HAVE_DOCKER:
@@ -21,7 +23,7 @@ class StringFile(ProcessingModule):
         args = "-a /data/{} >> /data/output/results.txt".format(target)
 
         return docker_client.containers.run(
-            'fame/strings',
+            'fame/string_analysis',
             args,
             volumes={self.outdir: {'bind': '/data', 'mode': 'rw'}},
             stderr=True,
@@ -39,4 +41,5 @@ class StringFile(ProcessingModule):
         with open(os.path.join(results_dir, "results.txt"), "r") as results_text:
             self.results['strings'] = results_text.readlines()
         
-        return len(self.results['strings']) > 0
+        if len(self.results['strings']) > 0:
+            return self.results['strings']
