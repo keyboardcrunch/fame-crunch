@@ -2,4 +2,4 @@
 SCRIPT=`realpath $0`
 SCRIPTPATH=`dirname $SCRIPT`
 
-docker build -t fame/1768k $SCRIPTPATH/docker
+docker build -t fame/ds1768k $SCRIPTPATH/docker

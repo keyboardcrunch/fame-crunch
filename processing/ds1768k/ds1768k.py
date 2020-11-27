@@ -5,7 +5,7 @@ from ..docker_utils import HAVE_DOCKER, docker_client, temp_volume
 
 
 class ds1768k(ProcessingModule):
-    name = "1768k"
+    name = "ds1768k"
     description = "Dump and decode Cobalt Strike beacons."
     acts_on = ["exe", "dll"]
 
@@ -19,7 +19,7 @@ class ds1768k(ProcessingModule):
         args = "/data/{} --output /data/output/results.txt".format(target)
 
         return docker_client.containers.run(
-            'fame/1768k',
+            'fame/ds1768k',
             args,
             volumes={self.outdir: {'bind': '/data', 'mode': 'rw'}},
             stderr=True,
